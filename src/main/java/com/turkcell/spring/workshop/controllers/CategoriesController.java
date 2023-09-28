@@ -1,6 +1,6 @@
 package com.turkcell.spring.workshop.controllers;
 
-import com.turkcell.spring.workshop.business.CategoryService;
+import com.turkcell.spring.workshop.business.abstracts.CategoryService;
 import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.dtos.CategoryForAddDto;
 import com.turkcell.spring.workshop.entities.dtos.CategoryForListingDto;

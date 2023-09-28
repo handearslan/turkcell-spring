@@ -55,4 +55,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
    List<ProductForListingIdDto> getForListingId(int productID );
 
 
+
+
 }

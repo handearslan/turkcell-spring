@@ -1,9 +1,12 @@
 package com.turkcell.spring.workshop.controllers;
 
-import com.turkcell.spring.workshop.business.ProductService;
+import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.entities.Product;
+import com.turkcell.spring.workshop.entities.dtos.ProductForAddDto;
 import com.turkcell.spring.workshop.entities.dtos.ProductForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.ProductForListingIdDto;
+import com.turkcell.spring.workshop.entities.dtos.ProductForUpdateDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +32,29 @@ public class ProductController {
         return productInDb;
     }
 
-
     @GetMapping("getById/{productId}")
     public List<ProductForListingIdDto> getById(@PathVariable("productId") int productId) {
         return productServices.getById(productId);
     }
+
   /*  ürün eklenmesi ekleme yaparken kullanıcıdan id alanı
     istenmemeli ve discontinued istenmeyip otomatik 0 olarak tanımlanmalı*/
- /*   @PostMapping("add")
-    public ResponseEntity add(@RequestBody Product product) {
-        productServices.add(product);
-        return new ResponseEntity<>(product.getProductName() + " ürünü eklendi...", HttpStatus.CREATED);
-    }*/
+  @PostMapping("add")
+    public ResponseEntity add(@RequestBody ProductForAddDto product) {
+        productServices.addProduct(product);
+        return new ResponseEntity( product.getProductName() + " adlı ürün eklendi.", HttpStatus.CREATED); }
+
+    @PutMapping("updateProduct/{productId}")
+    public ResponseEntity updateProduct (@PathVariable("productId") int productId, @RequestBody ProductForUpdateDto product) {
+        productServices.updateProduct(productId, product);
+        return new ResponseEntity(product.getProductName() + "Ürün güncellendi", HttpStatus.OK);
+    }
+
+    @DeleteMapping("{productId}")
+    public ResponseEntity deleteProduct (@PathVariable("productId") int productId) {
+        productServices.deleteProduct(productId);
+        return new ResponseEntity( "Ürün silindi", HttpStatus.OK);
+    }
 
     @GetMapping("getByUnitPrice")
     public List<Product> getProductById(@RequestParam("unitPrice") double unitPrice) {

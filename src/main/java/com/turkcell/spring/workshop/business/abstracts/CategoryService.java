@@ -1,4 +1,4 @@
-package com.turkcell.spring.workshop.business;
+package com.turkcell.spring.workshop.business.abstracts;
 
 import com.turkcell.spring.workshop.entities.dtos.CategoryForListingDto;
 

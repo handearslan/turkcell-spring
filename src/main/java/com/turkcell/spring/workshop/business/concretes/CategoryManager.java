@@ -1,5 +1,6 @@
-package com.turkcell.spring.workshop.business;
+package com.turkcell.spring.workshop.business.concretes;
 
+import com.turkcell.spring.workshop.business.abstracts.CategoryService;
 import com.turkcell.spring.workshop.entities.dtos.CategoryForListingDto;
 import com.turkcell.spring.workshop.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
