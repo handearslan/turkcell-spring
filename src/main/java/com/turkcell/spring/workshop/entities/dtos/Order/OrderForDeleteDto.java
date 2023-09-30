@@ -1,0 +1,14 @@
+package com.turkcell.spring.workshop.entities.dtos.Order;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderForDeleteDto {
+
+    private int orderId;
+
+}

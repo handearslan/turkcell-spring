@@ -1,5 +1,4 @@
-package com.turkcell.spring.workshop.entities.dtos;
-
+package com.turkcell.spring.workshop.entities.dtos.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductForListingDto {
 
-    private int productId;
+    private int productID;
     private String productName;
     private String quantityPerUnit;
     private float unitPrice;

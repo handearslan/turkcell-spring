@@ -1,11 +1,12 @@
 package com.turkcell.spring.workshop.business.concretes;
 
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
+import com.turkcell.spring.workshop.business.exceptions.BusinessException;
 import com.turkcell.spring.workshop.entities.Product;
-import com.turkcell.spring.workshop.entities.dtos.ProductForAddDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForListingDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForListingIdDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForUpdateDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForAddDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForUpdateDto;
 import com.turkcell.spring.workshop.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +26,19 @@ public class ProductManager implements ProductService {
 
     @Override
     public List<ProductForListingDto> getAll() {
+
         return productRepository.getForListing();
     }
 
+    public List<ProductForListingIdDto> getById(int productID) {
 
-    public List<ProductForListingIdDto> getById(int productId) {
-
-        return productRepository.getForListingId(productId);
+        return productRepository.getForListingId(productID);
     }
 
     public void addProduct(ProductForAddDto request) {
+        productWithSameNameShouldNotExist(request.getProductName());
+        addProductUnitPriceControl(request);
+
         Product product = new Product();
         product.setProductName(request.getProductName());
         product.setQuantityPerUnit(request.getQuantityPerUnit());
@@ -47,24 +51,25 @@ public class ProductManager implements ProductService {
         productRepository.save(product);
     }
 
-  /*  @Override
-    public void updateProduct(int productId, ProductForUpdateDto product) {
-
-        if (productId == product.getProductId()) {
-            product.setProductName(product.getProductName());
-            product.setUnitPrice(product.getUnitPrice());
-            product.getQuantityPerUnit(product.getQuantityPerUnit());
-            product.unit(product.getUnitPrice());
-            product.setUnitPrice(product.getUnitPrice());
-            productRepository.save(product);
-        } else {
-            throw new RuntimeException("Product not found");
+    private void addProductUnitPriceControl(ProductForAddDto request) {
+        // Product existingProduct = productRepository.findByUnitPrice(unitPrice);
+        if (request.getUnitPrice() < 0) {
+            throw new BusinessException("Ürün fiyatı 0'dan küçük olmamalıdır.");
         }
-    }*/
+    }
+
+    private void productWithSameNameShouldNotExist(String productName) {
+        //  Product productWithSameName = productRepository.findByProductName(productName);
+        if (productName == null || !productName.startsWith("HND")) {
+            throw new BusinessException("Ürün adı 'HND' ile başlamalıdır.");
+        }
+    }
 
     @Override
-    public void updateProduct(int productId, ProductForUpdateDto product) {
-        Optional<Product> optionalProduct = productRepository.findById(productId);
+    public void updateProduct(int productID, ProductForUpdateDto product) {
+        updateProductNotFound(product.getProductID());
+
+        Optional<Product> optionalProduct = productRepository.findById(productID);
 
         if (optionalProduct.isPresent()) {
             Product existingProduct = optionalProduct.get();
@@ -79,8 +84,16 @@ public class ProductManager implements ProductService {
             throw new RuntimeException("Product not found");
         }
     }
-    public void deleteProduct(int productId) {
-        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+    private void updateProductNotFound(int productID) {
+        Product existingProduct = productRepository.findByProductID(productID);
+        if (existingProduct == null) {
+            throw new BusinessException("Güncellenecek ürün bulunamadı.");
+        }
+    }
+
+    public void deleteProduct(int productID) {
+        Optional<Product> optionalProduct = productRepository.findById(productID);
 
         if (optionalProduct.isPresent()) {
             Product existingProduct = optionalProduct.get();
@@ -89,11 +102,10 @@ public class ProductManager implements ProductService {
             throw new RuntimeException("Product not found");
         }
     }
-
-
-
-
 }
+
+
+
 
 
 

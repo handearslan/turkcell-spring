@@ -1,4 +1,5 @@
 package com.turkcell.spring.workshop.entities;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="shippers")
+@Table(name = "shippers")
 @Getter
 @Setter
 @AllArgsConstructor

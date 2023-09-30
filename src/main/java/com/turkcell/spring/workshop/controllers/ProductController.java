@@ -2,10 +2,10 @@ package com.turkcell.spring.workshop.controllers;
 
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.entities.Product;
-import com.turkcell.spring.workshop.entities.dtos.ProductForAddDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForListingDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForListingIdDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForUpdateDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForAddDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForUpdateDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,6 @@ public class ProductController {
 
     private final ProductService productServices;
 
-
     @GetMapping
     public List<ProductForListingDto> getProduct() {
 
@@ -37,23 +36,24 @@ public class ProductController {
         return productServices.getById(productId);
     }
 
-  /*  ürün eklenmesi ekleme yaparken kullanıcıdan id alanı
-    istenmemeli ve discontinued istenmeyip otomatik 0 olarak tanımlanmalı*/
-  @PostMapping("add")
-    public ResponseEntity add(@RequestBody ProductForAddDto product) {
+    /*  ürün eklenmesi ekleme yaparken kullanıcıdan id alanı
+      istenmemeli ve discontinued istenmeyip otomatik 0 olarak tanımlanmalı*/
+    @PostMapping("add")
+    public ResponseEntity add(@RequestBody @Valid ProductForAddDto product) {
         productServices.addProduct(product);
-        return new ResponseEntity( product.getProductName() + " adlı ürün eklendi.", HttpStatus.CREATED); }
+        return new ResponseEntity(product.getProductName() + " adlı ürün eklendi.", HttpStatus.CREATED);
+    }
 
     @PutMapping("updateProduct/{productId}")
-    public ResponseEntity updateProduct (@PathVariable("productId") int productId, @RequestBody ProductForUpdateDto product) {
+    public ResponseEntity updateProduct(@PathVariable("productId") int productId, @RequestBody @Valid ProductForUpdateDto product) {
         productServices.updateProduct(productId, product);
         return new ResponseEntity(product.getProductName() + "Ürün güncellendi", HttpStatus.OK);
     }
 
     @DeleteMapping("{productId}")
-    public ResponseEntity deleteProduct (@PathVariable("productId") int productId) {
+    public ResponseEntity deleteProduct(@PathVariable("productId") int productId) {
         productServices.deleteProduct(productId);
-        return new ResponseEntity( "Ürün silindi", HttpStatus.OK);
+        return new ResponseEntity("Ürün silindi", HttpStatus.OK);
     }
 
     @GetMapping("getByUnitPrice")
@@ -72,7 +72,6 @@ public class ProductController {
 
     @GetMapping("getByQuantityUnit")
     public List<Product> getQuantityUnit() {
-
         //List<Product> product = productRepository.findByQuantityUnitIsNotNull();
         return null;
     }
@@ -113,6 +112,4 @@ public class ProductController {
         // List<Product> product = productRepository.searchNativeAls(als);
         return null;
     }
-
-
 }

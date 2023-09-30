@@ -1,18 +1,14 @@
-package com.turkcell.spring.workshop.entities.dtos;
+package com.turkcell.spring.workshop.entities.dtos.Category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-
-public class CategoryForListingDto {
+public class CategoryForListingIdDto {
     private int categoryId;
     private String categoryName;
+    private String description;
 }
-
-    //http://localhost:8081/swagger-ui/index.html
-

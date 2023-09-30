@@ -1,4 +1,5 @@
 package com.turkcell.spring.workshop.entities;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,51 +10,51 @@ import java.util.List;
 
 
 @Entity
-@Table(name="suppliers")
+@Table(name = "suppliers")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Supplier {
-    @Column(name="supplier_id")
+    @Column(name = "supplier_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short supplierID;
 
-    @Column(name="company_name")
+    @Column(name = "company_name")
     private String companyName;
 
-    @Column(name="contact_name")
+    @Column(name = "contact_name")
     private String contactName;
 
-    @Column(name="contact_title")
+    @Column(name = "contact_title")
     private String contactTitle;
 
-    @Column(name="address")
+    @Column(name = "address")
     private String address;
 
-    @Column(name="city")
+    @Column(name = "city")
     private String city;
 
-    @Column(name="region")
+    @Column(name = "region")
     private String region;
 
-    @Column(name="postal_code")
+    @Column(name = "postal_code")
     private String postalCode;
 
-    @Column(name="country")
+    @Column(name = "country")
     private String country;
 
-    @Column(name="phone")
+    @Column(name = "phone")
     private String phone;
 
-    @Column(name="fax")
+    @Column(name = "fax")
     private String fax;
 
-    @Column(name="homepage")
+    @Column(name = "homepage")
     private String homePage;
 
 
-    @ManyToMany(mappedBy= "supplier")
+    @ManyToMany(mappedBy = "supplier")
     private List<Product> products;
 }

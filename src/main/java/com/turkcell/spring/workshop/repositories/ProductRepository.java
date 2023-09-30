@@ -1,26 +1,28 @@
 package com.turkcell.spring.workshop.repositories;
 
 import com.turkcell.spring.workshop.entities.Product;
-import com.turkcell.spring.workshop.entities.dtos.ProductForListingDto;
-import com.turkcell.spring.workshop.entities.dtos.ProductForListingIdDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
+import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product,Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+
+    Product findByProductID(int productID);
 
     //Derived Method
-    List<Product> findByUnitPrice(double unitPrice);
+    // List<Product> findByUnitPrice(float unitPrice);
     List<Product> UnitsInStockGreaterThanEqual(short UnitsInStock);
-    List<Product> findByQuantityUnitIsNotNull();
-    List<Product> findByQuantityUnitIsNull();
 
+    List<Product> findByQuantityUnitIsNotNull();
+
+    List<Product> findByQuantityUnitIsNull();
 
     //SELECT  product_name, unit_price FROM products
     //    WHERE unit_price BETWEEN 50 AND 100
-
 
     //JPQL
     @Query(value = "SELECT p FROM Product p WHERE p.unitPrice BETWEEN :a and :b")
@@ -33,7 +35,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     @Query(value = "SELECT p FROM Product p WHERE p.discontinued=1")
     List<Product> discontinued();
 
-
     //Native SQL
 
     @Query(value = "SELECT * FROM products WHERE unit_price > 30", nativeQuery = true)
@@ -41,20 +42,19 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
 
     @Query(value = "SELECT * FROM products WHERE quantity_per_unit LIKE %:als%", nativeQuery = true)
     List<Product> searchNativeAls(String als);
-    @Query(value="SELECT new " +
-            "com.turkcell.spring.workshop.entities.dtos.ProductForListingDto(p.productID, " +
+
+    @Query(value = "SELECT new " +
+            "com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto(p.productID, " +
             "p.productName ," +
             " p.quantityPerUnit , p.unitPrice, p.unitsInStock,p.unitsOnOrder ," +
             "p.discontinued, p.quantityUnit) FROM Product p")
     List<ProductForListingDto> getForListing();
 
-    @Query(value="SELECT new " +
-            "com.turkcell.spring.workshop.entities.dtos.ProductForListingIdDto(p.productID, " +
+    @Query(value = "SELECT new " +
+            "com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto(p.productID, " +
             "p.productName ," +
             " p.quantityPerUnit , p.unitPrice, p.unitsInStock,p.unitsOnOrder , p.quantityUnit,p.reorderLevel) FROM Product p WHERE p.productID = :productID")
-   List<ProductForListingIdDto> getForListingId(int productID );
-
-
+    List<ProductForListingIdDto> getForListingId(int productID);
 
 
 }
