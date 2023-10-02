@@ -4,6 +4,7 @@ import com.turkcell.spring.workshop.business.abstracts.OrderService;
 import com.turkcell.spring.workshop.business.exceptions.BusinessException;
 import com.turkcell.spring.workshop.entities.Order;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForAddDto;
+import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForUpdateDto;
 import com.turkcell.spring.workshop.repositories.OrderRepository;
@@ -23,8 +24,8 @@ public class OrderManager implements OrderService {
         this.orderRepository = orderRepository;
     }
 
-  /*  @Override
-    public List<OrderForListingDto> getAll() {    return orderRepository.getForListing();  }*/
+    @Override
+    public List<OrderForListingDto> getAll() {    return orderRepository.getForListing();  }
 
     @Override
     public List<OrderForListingIdDto> getById(int orderId) {

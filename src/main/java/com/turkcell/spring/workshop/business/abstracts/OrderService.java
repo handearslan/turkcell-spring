@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public interface OrderService {
 
-   // List<OrderForListingDto> getAll();
+    List<OrderForListingDto> getAll();
 
     List<OrderForListingIdDto> getById(int orderId);
 

@@ -2,6 +2,7 @@ package com.turkcell.spring.workshop.controllers;
 
 import com.turkcell.spring.workshop.business.abstracts.OrderService;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForAddDto;
+import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForUpdateDto;
 import jakarta.validation.Valid;
@@ -22,12 +23,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
-  /*  @GetMapping()
+    @GetMapping()
     public List<OrderForListingDto> getOrders()
     {
         List<OrderForListingDto> ordersInDb = orderService.getAll();
         return ordersInDb;
-    }*/
+    }
 
     @GetMapping("getById/{orderId}")
     public List<OrderForListingIdDto> getById(@PathVariable("orderId") int orderId) {
