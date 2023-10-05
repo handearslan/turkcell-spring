@@ -1,5 +1,6 @@
 package com.turkcell.spring.workshop.entities.dtos.Order;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -11,8 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderForListingIdDto {
     private int orderId;
-    private Date orderDate;
-    private Date requiredDate;
+    private LocalDate orderDate;
+    private LocalDate requiredDate;
     private short shipVia;
     private float freight;
     private String shipName;

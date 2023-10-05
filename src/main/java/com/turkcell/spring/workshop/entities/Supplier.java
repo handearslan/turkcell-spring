@@ -1,6 +1,7 @@
 package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,6 @@ import java.util.List;
 public class Supplier {
     @Column(name = "supplier_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short supplierID;
 
     @Column(name = "company_name")

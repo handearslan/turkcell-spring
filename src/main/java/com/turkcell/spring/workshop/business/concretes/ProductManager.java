@@ -2,6 +2,7 @@ package com.turkcell.spring.workshop.business.concretes;
 
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.business.exceptions.BusinessException;
+import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.Product;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForAddDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
@@ -36,12 +37,17 @@ public class ProductManager implements ProductService {
     }
 
     public void addProduct(ProductForAddDto request) {
-        productWithSameNameShouldNotExist(request.getProductName());
+       // productWithSameNameShouldNotExist(request.getProductName());
         addProductUnitPriceControl(request);
+        productWithSameNameShouldNot(request.getProductName());
 
         Product product = new Product();
         product.setProductName(request.getProductName());
         product.setQuantityPerUnit(request.getQuantityPerUnit());
+       // product.getCategory().setCategoryId(request.getCategoryId());
+       // product.getSupplier().
+       // product.getSupplier().get;
+
         product.setUnitPrice(request.getUnitPrice());
         product.setUnitsInStock(request.getUnitsInStock());
         product.setUnitsOnOrder(request.getUnitsOnOrder());
@@ -57,17 +63,24 @@ public class ProductManager implements ProductService {
             throw new BusinessException("Ürün fiyatı 0'dan küçük olmamalıdır.");
         }
     }
+    private void productWithSameNameShouldNot(String productName) {
+        Product productWithSameName = productRepository.findByProductName(productName);
+        if (productWithSameName != null)
+            throw new BusinessException("Aynı ürün mevcut.Başka ürün ismi giriniz.");
+    }
 
-    private void productWithSameNameShouldNotExist(String productName) {
+  /*  private void productWithSameNameShouldNotExist(String productName) {
         //  Product productWithSameName = productRepository.findByProductName(productName);
         if (productName == null || !productName.startsWith("HND")) {
             throw new BusinessException("Ürün adı 'HND' ile başlamalıdır.");
-        }
-    }
+        }*/
+
 
     @Override
     public void updateProduct(int productID, ProductForUpdateDto product) {
         updateProductNotFound(product.getProductID());
+        productWithSameNameShouldNot(product.getProductName());
+
 
         Optional<Product> optionalProduct = productRepository.findById(productID);
 
@@ -84,6 +97,8 @@ public class ProductManager implements ProductService {
             throw new RuntimeException("Product not found");
         }
     }
+
+
 
     private void updateProductNotFound(int productID) {
         Product existingProduct = productRepository.findByProductID(productID);
@@ -103,6 +118,12 @@ public class ProductManager implements ProductService {
         }
     }
 }
+
+    /*Ürün ismi 3 haneden kısa olamaz.
+        Supplier id ve category id boş geçilemez ve 0'dan küçük eşit olamaz
+        Unit Price boş geçilemez ve 0'dan küçük olamaz
+        Stock bilgisi 0dan küçük olamaz
+        Birebir aynı isimde ikinci ürün eklenemez.*/
 
 
 

@@ -1,15 +1,19 @@
 package com.turkcell.spring.workshop.entities;
+
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Order implements Serializable {
+    private static final long serialVersionUID = -3768993720416727528L;
     @Id
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,13 +28,13 @@ public class Order {
     private List<Employee> employee;
 
     @Column(name = "order_date")
-    private java.sql.Date orderDate;
+    private LocalDate orderDate;
 
     @Column(name = "required_date")
-    private java.sql.Date requiredDate;
+    private LocalDate requiredDate;
 
     @Column(name = "shipped_date")
-    private java.sql.Date shippedDate;
+    private LocalDate shippedDate;
 
     @Column(name = "ship_via")
     private short shipVia;
@@ -55,4 +59,6 @@ public class Order {
 
     @Column(name = "ship_country")
     private String shipCountry;
+
+
 }

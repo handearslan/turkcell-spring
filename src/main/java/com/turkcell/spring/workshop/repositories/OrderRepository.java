@@ -25,4 +25,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     Order findByShipCity(String shipCity);
 
     Order findByFreight(Float freight);
+
+
+
+
 }

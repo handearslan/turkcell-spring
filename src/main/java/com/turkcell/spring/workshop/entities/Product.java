@@ -24,6 +24,7 @@ public class Product {
 
     @ManyToMany
     @JoinColumn(name = "supplier_id")
+    @JsonIgnore
     private List<Supplier> supplier;
 
     @ManyToOne

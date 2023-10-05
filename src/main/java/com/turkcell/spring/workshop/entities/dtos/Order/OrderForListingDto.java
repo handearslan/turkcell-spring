@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderForListingDto {
     private int orderId;
-    private java.sql.Date orderDate;
-    private java.sql.Date requiredDate;
+    private LocalDate orderDate;
+    private LocalDate requiredDate;
     private short shipVia;
     private float freight;
     private String shipName;

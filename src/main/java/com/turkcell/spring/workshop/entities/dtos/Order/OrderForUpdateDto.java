@@ -1,5 +1,6 @@
 package com.turkcell.spring.workshop.entities.dtos.Order;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.validation.constraints.Digits;
@@ -15,8 +16,8 @@ public class OrderForUpdateDto {
 
     @Positive(message = " Gelecek değer pozitif olmak zorundadır")
     private int orderId;
-    private Date orderDate;
-    private Date requiredDate;
+    private LocalDate orderDate;
+    private LocalDate requiredDate;
 
     @Digits(integer = 1, fraction = 0, message = "Girilecek sayı tek basamak olmalıdır.")
     private short shipVia;
@@ -27,5 +28,6 @@ public class OrderForUpdateDto {
     private String shipCity;
     private String shipRegion;
     private String shipCountry;
+
 
 }

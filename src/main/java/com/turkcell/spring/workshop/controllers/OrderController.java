@@ -5,6 +5,7 @@ import com.turkcell.spring.workshop.entities.dtos.Order.OrderForAddDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForUpdateDto;
+import com.turkcell.spring.workshop.entities.dtos.Order_Details.OrderDetailsForAddto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class OrderController {
     }
 
     @PostMapping("add")
-    public ResponseEntity add(@RequestBody @Valid OrderForAddDto order) {
+    public ResponseEntity add(@RequestBody @Valid OrderForAddDto order,@RequestBody @Valid OrderDetailsForAddto orderDetail) {
         orderService.addOrder(order);
         return new ResponseEntity("Sipariş eklendi.", HttpStatus.CREATED);
     }

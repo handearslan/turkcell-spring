@@ -1,5 +1,6 @@
 package com.turkcell.spring.workshop.repositories;
 
+import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.Product;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
@@ -18,6 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> UnitsInStockGreaterThanEqual(short UnitsInStock);
 
     List<Product> findByQuantityUnitIsNotNull();
+    Product findByProductName(String productName);
 
     List<Product> findByQuantityUnitIsNull();
 
@@ -53,7 +55,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT new " +
             "com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto(p.productID, " +
             "p.productName ," +
-            " p.quantityPerUnit , p.unitPrice, p.unitsInStock,p.unitsOnOrder , p.quantityUnit,p.reorderLevel) FROM Product p WHERE p.productID = :productID")
+            "p.quantityPerUnit , p.unitPrice, p.unitsInStock,p.unitsOnOrder , p.quantityUnit,p.reorderLevel) FROM Product p WHERE p.productID = :productID")
     List<ProductForListingIdDto> getForListingId(int productID);
 
 
