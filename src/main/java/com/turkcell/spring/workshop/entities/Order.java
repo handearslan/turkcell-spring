@@ -2,6 +2,7 @@ package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,20 +13,25 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order implements Serializable {
-    private static final long serialVersionUID = -3768993720416727528L;
+@Builder
+public class Order {
+
     @Id
     @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
 
-    @ManyToMany()
+    @ManyToOne()
     @JoinColumn(name = "customer_id")
-    private List<Customer> customer;
+    private Customer customer;
 
-    @ManyToMany()
+    @ManyToOne()
     @JoinColumn(name = "employee_id")
-    private List<Employee> employee;
+    private Employee employee;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
+
 
     @Column(name = "order_date")
     private LocalDate orderDate;
@@ -33,8 +39,7 @@ public class Order implements Serializable {
     @Column(name = "required_date")
     private LocalDate requiredDate;
 
-    @Column(name = "shipped_date")
-    private LocalDate shippedDate;
+
 
     @Column(name = "ship_via")
     private short shipVia;

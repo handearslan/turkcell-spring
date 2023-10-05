@@ -1,11 +1,9 @@
 package com.turkcell.spring.workshop.entities.dtos.Order;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import com.turkcell.spring.workshop.entities.dtos.Order_Details.OrderDetailsForAddto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,18 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderForAddDto {
-
-    private LocalDate orderDate;
+    private String customerID;
+    private int employeeId;
     private LocalDate requiredDate;
-    private int employee_id;
-    @Digits(integer = 1, fraction = 0, message = "Girilecek sayı tek basamak olmalıdır.")
     private short shipVia;
-
-    private float freight;
-
-    //@NotBlank(message = "Ship Name girme zorunludur.")
     private String shipName;
+    private String shipAddress;
+    private float freight;
     private String shipCity;
     private String shipRegion;
-    private String shipCountry;
+
+    private List<OrderDetailsForAddto> items;
 }

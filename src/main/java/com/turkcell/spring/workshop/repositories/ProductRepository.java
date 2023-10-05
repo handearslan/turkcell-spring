@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+    Product findByProductName(String productName);
+
     Product findByProductID(int productID);
 
     //Derived Method
@@ -19,7 +21,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> UnitsInStockGreaterThanEqual(short UnitsInStock);
 
     List<Product> findByQuantityUnitIsNotNull();
-    Product findByProductName(String productName);
 
     List<Product> findByQuantityUnitIsNull();
 

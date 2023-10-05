@@ -16,26 +16,23 @@ public class ProductForAddDto {
 
     @Size(min = 3, message = "Ürün adı 3 karakterden fazla olmalıdır. ")
     private String productName;
-    private String quantityPerUnit;
 
-    private float unitPrice;
-
-    @PositiveOrZero(message = "0 veya daha büyük olmalıdır.")
+    @Min(1)
     @NotNull(message = "Boş bırakılmaz.")
-    private int supplierID;
+    private short supplierID;
 
-    @PositiveOrZero(message = "0 veya daha büyük olmalıdır.")
+    @Min(1)
     @NotNull(message = "Boş bırakılmaz.")
     private int categoryId;
 
-    @PositiveOrZero(message = "Stoktaki ürün sayısı 0 veya daha büyük olmalıdır.")
+    @Min(1)
+    @NotNull(message = "Boş bırakılmaz.")
+    private float unitPrice;
+
+    @Min(1)
+    @NotNull(message = "Boş bırakılmaz.")
     private short unitsInStock;
 
-    private short unitsOnOrder;
-    private short reorderLevel;
-
-    @NotBlank(message = "Boş bırakılmaz.")
-    private String quantityUnit;
 }
 
 

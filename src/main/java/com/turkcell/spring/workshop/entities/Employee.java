@@ -1,10 +1,7 @@
 package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,13 +11,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Employee {
     @Id
     @Column(name = "employee_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int employeeId;
 
-    @ManyToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "employee")

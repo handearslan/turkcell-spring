@@ -1,12 +1,8 @@
 package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -15,13 +11,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer implements Serializable {
-    private static final long serialVersionUID = 2851830085791149510L;
+@Builder
+public class Customer {
+
     @Column(name = "customer_id")
-    @Id
+    @Id()
     private String customerID;
 
-    @ManyToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
     @OneToMany(mappedBy = "customer")

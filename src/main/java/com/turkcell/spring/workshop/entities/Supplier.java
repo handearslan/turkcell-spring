@@ -2,10 +2,7 @@ package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Supplier {
     @Column(name = "supplier_id")
     @Id
@@ -55,6 +53,6 @@ public class Supplier {
     private String homePage;
 
 
-    @ManyToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier")
     private List<Product> products;
 }

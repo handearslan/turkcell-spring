@@ -38,7 +38,11 @@ public class CategoryManager implements CategoryService {
         categoryWithSameNameShouldNotExist(request.getCategoryName());
         categoryNameCanNotBeEmpty(request.getCategoryName());
 
-        Category category = new Category();
+        /*Category category = new Category();
+        category.setCategoryName(request.getCategoryName());
+        category.setDescription(request.getDescription());*/
+
+        Category category = Category.builder().build();
         category.setCategoryName(request.getCategoryName());
         category.setDescription(request.getDescription());
 
@@ -59,38 +63,30 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public void updateCategory(int categoryId, CategoryForUpdateDto category) {
-        categoryIdUpdateCouldNotBeFound(categoryId);
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
+        Category categoryToUpdate = returnCategoryByIdIfExists(categoryId);
 
-        if (optionalCategory.isPresent()) {
-            Category existingCategory = optionalCategory.get();
+        categoryToUpdate.setCategoryName(category.getCategoryName());
+        categoryToUpdate.setDescription(category.getDescription());
 
-            existingCategory.setCategoryName(category.getCategoryName());
-            existingCategory.setDescription(category.getDescription());
+        categoryRepository.save(categoryToUpdate);
 
-            categoryRepository.save(existingCategory);
-        } else {
-            throw new RuntimeException("Category not found");
-        }
     }
 
-    private void categoryIdUpdateCouldNotBeFound(int CategoryId) {
-        Category categoryWithSameId = categoryRepository.findByCategoryId(CategoryId);
-        if (categoryWithSameId == null) {
-            throw new BusinessException("Kategori bulunamadı");
-        }
-    }
 
     @Override
     public void deleteCategory(int categoryId) {
         Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
 
-        if (optionalCategory.isPresent()) {
-            Category existingCategory = optionalCategory.get();
-            categoryRepository.delete(existingCategory);
-        } else {
-            throw new RuntimeException("Category not found");
-        }
+        Category categoryToDelete = returnCategoryByIdIfExists(categoryId);
+
+        categoryRepository.delete(categoryToDelete);
+    }
+
+    private Category returnCategoryByIdIfExists(int id) {
+        Category categoryToDelete = categoryRepository.findById(id).orElse(null);
+        if (categoryToDelete == null)
+            throw new BusinessException("Böyle bir kategori bulunamadı.");
+        return categoryToDelete;
     }
 }
 

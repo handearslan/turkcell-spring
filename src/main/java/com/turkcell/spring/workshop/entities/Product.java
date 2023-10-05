@@ -3,6 +3,7 @@ package com.turkcell.spring.workshop.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Product {
     @Id
     @Column(name = "product_id")
@@ -22,15 +24,17 @@ public class Product {
     @Column(name = "product_name")
     private String productName;  //varchar=string
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "supplier_id")
-    @JsonIgnore
-    private List<Supplier> supplier;
+    private Supplier supplier;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonIgnore
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetail> orderDetails;
 
     @Column(name = "quantity_per_unit")
     private String quantityPerUnit;

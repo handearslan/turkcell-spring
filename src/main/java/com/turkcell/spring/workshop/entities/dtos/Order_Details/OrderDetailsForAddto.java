@@ -10,12 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDetailsForAddto {
-    private int orderId;
-    private int productID;
-    private float unit_price;
 
-    @Min(1)
+    private int productId;
     private short quantity;
-    private float discount;
 
 }

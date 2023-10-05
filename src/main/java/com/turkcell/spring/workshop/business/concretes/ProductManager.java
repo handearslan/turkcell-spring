@@ -3,7 +3,9 @@ package com.turkcell.spring.workshop.business.concretes;
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.business.exceptions.BusinessException;
 import com.turkcell.spring.workshop.entities.Category;
+import com.turkcell.spring.workshop.entities.Order;
 import com.turkcell.spring.workshop.entities.Product;
+import com.turkcell.spring.workshop.entities.Supplier;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForAddDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
@@ -25,97 +27,87 @@ public class ProductManager implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @Override
+    @Override //Tüm ürünleri getirir.
     public List<ProductForListingDto> getAll() {
 
         return productRepository.getForListing();
     }
 
+    //Id 'ye göre ürün getirir.
     public List<ProductForListingIdDto> getById(int productID) {
 
         return productRepository.getForListingId(productID);
     }
 
+    //ürün ekler
     public void addProduct(ProductForAddDto request) {
-       // productWithSameNameShouldNotExist(request.getProductName());
-        addProductUnitPriceControl(request);
         productWithSameNameShouldNot(request.getProductName());
+        // addProductUnitPriceControl(request);
 
-        Product product = new Product();
-        product.setProductName(request.getProductName());
-        product.setQuantityPerUnit(request.getQuantityPerUnit());
-       // product.getCategory().setCategoryId(request.getCategoryId());
-       // product.getSupplier().
-       // product.getSupplier().get;
+        Product newProduct = Product.builder()
+                .productName(request.getProductName())
+                .unitPrice(request.getUnitPrice())
+                .unitsInStock(request.getUnitsInStock())
+                .category(Category.builder().categoryId(request.getCategoryId()).build())
+                .supplier(Supplier.builder().supplierID(request.getSupplierID()).build())
+                .discontinued(0)
+                .build();
 
-        product.setUnitPrice(request.getUnitPrice());
-        product.setUnitsInStock(request.getUnitsInStock());
-        product.setUnitsOnOrder(request.getUnitsOnOrder());
-        product.setReorderLevel(request.getReorderLevel());
-        product.setQuantityUnit(request.getQuantityUnit());
-        product.setDiscontinued(0);
-        productRepository.save(product);
+        productRepository.save(newProduct);
+
     }
 
-    private void addProductUnitPriceControl(ProductForAddDto request) {
+   /* private void addProductUnitPriceControl(ProductForAddDto request) {
         // Product existingProduct = productRepository.findByUnitPrice(unitPrice);
         if (request.getUnitPrice() < 0) {
             throw new BusinessException("Ürün fiyatı 0'dan küçük olmamalıdır.");
         }
-    }
+    }*/
+
     private void productWithSameNameShouldNot(String productName) {
         Product productWithSameName = productRepository.findByProductName(productName);
         if (productWithSameName != null)
             throw new BusinessException("Aynı ürün mevcut.Başka ürün ismi giriniz.");
     }
 
-  /*  private void productWithSameNameShouldNotExist(String productName) {
+   /* private void productWithSameNameShouldNotExist(String productName) {
         //  Product productWithSameName = productRepository.findByProductName(productName);
         if (productName == null || !productName.startsWith("HND")) {
             throw new BusinessException("Ürün adı 'HND' ile başlamalıdır.");
-        }*/
+        }
+    }*/
 
-
+    //ürün günceller
     @Override
     public void updateProduct(int productID, ProductForUpdateDto product) {
-        updateProductNotFound(product.getProductID());
+
         productWithSameNameShouldNot(product.getProductName());
 
+        //productWithSameNameShouldNotExist(product.getProductName());
 
-        Optional<Product> optionalProduct = productRepository.findById(productID);
+        productWithSameNameShouldNot(product.getProductName());
 
-        if (optionalProduct.isPresent()) {
-            Product existingProduct = optionalProduct.get();
+        Product productToUpdate = returnProductByIdIfExists(productID);
 
-            // Güncelleme isteğindeki verileri kullanarak mevcut ürünü güncelle
-            existingProduct.setProductName(product.getProductName());
-            existingProduct.setUnitPrice(product.getUnitPrice());
+        productToUpdate.setProductName(product.getProductName());
+        productToUpdate.setUnitPrice(product.getUnitPrice());
 
-            // Güncellenen ürünü kaydet
-            productRepository.save(existingProduct);
-        } else {
-            throw new RuntimeException("Product not found");
-        }
     }
 
-
-
-    private void updateProductNotFound(int productID) {
-        Product existingProduct = productRepository.findByProductID(productID);
-        if (existingProduct == null) {
-            throw new BusinessException("Güncellenecek ürün bulunamadı.");
-        }
-    }
-
+    //ürün siler
     public void deleteProduct(int productID) {
         Optional<Product> optionalProduct = productRepository.findById(productID);
 
-        if (optionalProduct.isPresent()) {
-            Product existingProduct = optionalProduct.get();
-            productRepository.delete(existingProduct);
-        } else {
-            throw new RuntimeException("Product not found");
-        }
+        Product productToDelete = returnProductByIdIfExists(productID);
+
+        productRepository.delete(productToDelete);
+    }
+
+    private Product returnProductByIdIfExists(int productID) {
+        Product productToDelete = productRepository.findById(productID).orElse(null);
+        if (productToDelete == null)
+            throw new BusinessException("Böyle bir sipariş bulunamadı.");
+        return productToDelete;
     }
 }
 
