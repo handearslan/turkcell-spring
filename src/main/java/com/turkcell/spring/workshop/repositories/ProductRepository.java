@@ -14,8 +14,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     Product findByProductName(String productName);
 
-    Product findByProductID(int productID);
 
+    Product findByProductID(int productID);
+    //  Buradaki ürünün unit_price'ı ürün idsi kullanılarak ürünler tablosundan çekilmelidir.
     //Derived Method
     // List<Product> findByUnitPrice(float unitPrice);
     List<Product> UnitsInStockGreaterThanEqual(short UnitsInStock);

@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class OrderDetailsForAddto {
 
     private int productId;
+
+    @Min(1)
     private short quantity;
 
 }

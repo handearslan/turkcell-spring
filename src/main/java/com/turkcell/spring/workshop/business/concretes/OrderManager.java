@@ -3,7 +3,6 @@ package com.turkcell.spring.workshop.business.concretes;
 import com.turkcell.spring.workshop.business.abstracts.OrderDetailService;
 import com.turkcell.spring.workshop.business.abstracts.OrderService;
 import com.turkcell.spring.workshop.business.exceptions.BusinessException;
-import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.Customer;
 import com.turkcell.spring.workshop.entities.Employee;
 import com.turkcell.spring.workshop.entities.Order;
@@ -25,7 +24,6 @@ public class OrderManager implements OrderService {
     private final OrderRepository orderRepository;
 
     private final OrderDetailService orderDetailService;
-
 
     public OrderManager(OrderRepository orderRepository, EmployeeRepository employeeRepository, CustomerRepository customerRepository, OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository, OrderDetailService orderDetailService) {
 
@@ -52,13 +50,14 @@ public class OrderManager implements OrderService {
         // oluşan id'yi ve itemları orderdetail service gönder o da bu idye detay eklemelerini yapsın..
 
         freightWithNumberBiggerThanTwentyOne(request);
-        checkIfEmployeeExistById(request);
         shipCityWithSameNameShouldNotExist(request);
+        requiredDateCannotBePastTenseThanLocalDate(request.getRequiredDate());
 
         Order order = Order.builder()
                 .customer(Customer.builder().customerID(request.getCustomerID()).build())
                 .orderDate(LocalDate.now())
                 .employee(Employee.builder().employeeId(request.getEmployeeId()).build())
+                .shipVia(request.getShipVia())
                 .requiredDate(request.getRequiredDate())
                 .shipAddress(request.getShipAddress())
                 .shipCity(request.getShipCity())
@@ -73,6 +72,13 @@ public class OrderManager implements OrderService {
 
     }
 
+
+    private void requiredDateCannotBePastTenseThanLocalDate(LocalDate requiredDate) {
+        if (requiredDate.isBefore(LocalDate.now())) {
+            throw new BusinessException("Girilen tarih şu anın tarihinden geçmiş olmamalıdır.");
+        }
+    }
+
     private void freightWithNumberBiggerThanTwentyOne(OrderForAddDto request) {
         // Order orderWithBiggerThan = orderRepository.findByShipCountry(shipCountry);
         if (request.getFreight() <= 21.5) {
@@ -84,14 +90,6 @@ public class OrderManager implements OrderService {
         // Order orderWithSameName = orderRepository.findByShipCity(shipCity);
         if (request.getShipCity() == null)
             throw new BusinessException("Şehir ismi boş olamaz.");
-    }
-
-    private void checkIfEmployeeExistById(OrderForAddDto request) {
-        //Optional<Employee> employee = employeeRepository.findById(request.getEmployee_id());
-
-        //if () {
-        throw new BusinessException("Çalışan id değeri bulunamadı ");
-        //}
     }
 
     @Override
@@ -136,24 +134,4 @@ public class OrderManager implements OrderService {
     }
 }
 
- /*   private void checkIfCustomerExistById(String customerId) {
-        Optional<Customer> customer = customerRepository.findById(customerId);
-        if (customer == null) {
-            throw new BusinessException("Müşteri id değeri bulunamadı ");
-        }
-    }
-    private void checkIfEmployeeExistById(int employee_id) {
-        Optional<Employee> employee = employeeRepository.findById(employee_id);
-        if (employee == null) {
-            throw new BusinessException("Çalışan id değeri bulunamadı ");
-        }
-    }*/
-
-/* public void orderWithShippedDateGreaterThanOrderDate(LocalDate orderDate, LocalDate shippedDate) {
-        int date = orderDate.compareTo(shippedDate);
-
-        if (date > 0) {
-            throw new BusinessException("şipariş tarihi kargo tarihinden sonra olamaz.");
-        }
-    }*/
 

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.turkcell.spring.workshop.entities.dtos.Order_Details.OrderDetailsForAddto;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderForAddDto {
+
+    @NotBlank
     private String customerID;
+
+    @NotNull
     private int employeeId;
     private LocalDate requiredDate;
     private short shipVia;

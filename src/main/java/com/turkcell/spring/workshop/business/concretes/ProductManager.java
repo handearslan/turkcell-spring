@@ -3,7 +3,6 @@ package com.turkcell.spring.workshop.business.concretes;
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.business.exceptions.BusinessException;
 import com.turkcell.spring.workshop.entities.Category;
-import com.turkcell.spring.workshop.entities.Order;
 import com.turkcell.spring.workshop.entities.Product;
 import com.turkcell.spring.workshop.entities.Supplier;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForAddDto;
@@ -33,16 +32,30 @@ public class ProductManager implements ProductService {
         return productRepository.getForListing();
     }
 
+
     //Id 'ye göre ürün getirir.
     public List<ProductForListingIdDto> getById(int productID) {
 
         return productRepository.getForListingId(productID);
     }
 
+    public float getByUnitPrice(int productID) {
+
+        return productRepository.findByProductID(productID).getUnitPrice();
+    }
+
+    @Override
+    public short getUnitInStock(int productID) {
+        return productRepository.findByProductID(productID).getUnitsInStock();
+    }
+
+
+
     //ürün ekler
     public void addProduct(ProductForAddDto request) {
         productWithSameNameShouldNot(request.getProductName());
         // addProductUnitPriceControl(request);
+
 
         Product newProduct = Product.builder()
                 .productName(request.getProductName())
@@ -56,6 +69,15 @@ public class ProductManager implements ProductService {
         productRepository.save(newProduct);
 
     }
+
+    public void setUnitInStock(short quantity, int productID){
+        Product product = productRepository.findByProductID(productID);
+        product.setUnitsInStock((short) (product.getUnitsInStock()-quantity));
+        productRepository.save(product);
+
+    }
+
+//Siparişe eklenen her ürünün stok adeti quantity kadar azaltılmalıdır.
 
    /* private void addProductUnitPriceControl(ProductForAddDto request) {
         // Product existingProduct = productRepository.findByUnitPrice(unitPrice);
