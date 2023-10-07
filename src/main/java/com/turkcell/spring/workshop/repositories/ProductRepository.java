@@ -1,6 +1,5 @@
 package com.turkcell.spring.workshop.repositories;
 
-import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.Product;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
@@ -43,6 +42,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query(value = "SELECT * FROM products WHERE unit_price > 30", nativeQuery = true)
     List<Product> searchNative();
+
+
 
     @Query(value = "SELECT * FROM products WHERE quantity_per_unit LIKE %:als%", nativeQuery = true)
     List<Product> searchNativeAls(String als);

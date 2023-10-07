@@ -6,7 +6,7 @@ import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.entities.Order;
 import com.turkcell.spring.workshop.entities.OrderDetail;
 import com.turkcell.spring.workshop.entities.Product;
-import com.turkcell.spring.workshop.entities.dtos.Order_Details.OrderDetailsForAddto;
+import com.turkcell.spring.workshop.entities.dtos.OrderDetails.OrderDetailsForAddto;
 import com.turkcell.spring.workshop.repositories.OrderDetailsRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,18 +41,23 @@ public class OrderDetailManager implements OrderDetailService {
         }
     }
 
+    @Override
+    public List<Object> getForListing() {
+        return orderDetailsRepository.getForListing();
+    }
+
+    //Eğer ilgili üründen talep edilen adet kadar yoksa adet verilebilecek max. stok olarak güncellenmelidir.
     private short RequestedProductCannotExceedTheNumberOfProductsInStock(short quantity, int productID) {
 
         short unitsInStock = productService.getUnitInStock(productID);
         if (quantity > unitsInStock) {
-      //   productService.setUnitInStock(unitsInStock,productID);
+            //   productService.setUnitInStock(unitsInStock,productID);
             return unitsInStock;
         }
-      //  productService.setUnitInStock(quantity,productID);
+        //  productService.setUnitInStock(quantity,productID);
         return quantity;
-
     }
 }
 
-  //  Siparişe eklenen her ürünün stok adeti quantity kadar azaltılmalıdır.
+
 

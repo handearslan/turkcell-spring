@@ -69,7 +69,6 @@ public class CategoryManager implements CategoryService {
         categoryToUpdate.setDescription(category.getDescription());
 
         categoryRepository.save(categoryToUpdate);
-
     }
 
     @Override

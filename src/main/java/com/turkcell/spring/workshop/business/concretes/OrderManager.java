@@ -72,7 +72,7 @@ public class OrderManager implements OrderService {
 
     }
 
-
+    //Required Date kullanıcı tarafından gönderilmeli ve o günün tarihinden daha geçmiş bir tarih gönderilmemelidir.+
     private void requiredDateCannotBePastTenseThanLocalDate(LocalDate requiredDate) {
         if (requiredDate.isBefore(LocalDate.now())) {
             throw new BusinessException("Girilen tarih şu anın tarihinden geçmiş olmamalıdır.");
@@ -115,7 +115,6 @@ public class OrderManager implements OrderService {
             throw new BusinessException("Sipariş ismi 20 karakterden uzun olamaz.");
         }
     }
-
 
     @Override
     public void deleteOrder(int orderId) {

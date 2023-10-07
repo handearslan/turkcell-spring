@@ -1,7 +1,6 @@
 package com.turkcell.spring.workshop.entities.dtos.Order;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Positive;
@@ -21,7 +20,6 @@ public class OrderForUpdateDto {
 
     @Digits(integer = 1, fraction = 0, message = "Girilecek sayı tek basamak olmalıdır.")
     private short shipVia;
-
 
     private float freight;
     private String shipName;

@@ -3,7 +3,7 @@ package com.turkcell.spring.workshop.entities.dtos.Order;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.turkcell.spring.workshop.entities.dtos.Order_Details.OrderDetailsForAddto;
+import com.turkcell.spring.workshop.entities.dtos.OrderDetails.OrderDetailsForAddto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

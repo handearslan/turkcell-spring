@@ -49,13 +49,9 @@ public class ProductManager implements ProductService {
         return productRepository.findByProductID(productID).getUnitsInStock();
     }
 
-
-
-    //ürün ekler
     public void addProduct(ProductForAddDto request) {
         productWithSameNameShouldNot(request.getProductName());
         // addProductUnitPriceControl(request);
-
 
         Product newProduct = Product.builder()
                 .productName(request.getProductName())
@@ -70,14 +66,13 @@ public class ProductManager implements ProductService {
 
     }
 
-    public void setUnitInStock(short quantity, int productID){
+    //Siparişe eklenen her ürünün stok adeti quantity kadar azaltılmalıdır. +
+    public void setUnitInStock(short quantity, int productID) {
         Product product = productRepository.findByProductID(productID);
-        product.setUnitsInStock((short) (product.getUnitsInStock()-quantity));
+        product.setUnitsInStock((short) (product.getUnitsInStock() - quantity));
         productRepository.save(product);
 
     }
-
-//Siparişe eklenen her ürünün stok adeti quantity kadar azaltılmalıdır.
 
    /* private void addProductUnitPriceControl(ProductForAddDto request) {
         // Product existingProduct = productRepository.findByUnitPrice(unitPrice);
@@ -133,11 +128,6 @@ public class ProductManager implements ProductService {
     }
 }
 
-    /*Ürün ismi 3 haneden kısa olamaz.
-        Supplier id ve category id boş geçilemez ve 0'dan küçük eşit olamaz
-        Unit Price boş geçilemez ve 0'dan küçük olamaz
-        Stock bilgisi 0dan küçük olamaz
-        Birebir aynı isimde ikinci ürün eklenemez.*/
 
 
 

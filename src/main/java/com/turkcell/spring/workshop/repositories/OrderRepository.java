@@ -20,6 +20,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
             " FROM Order o WHERE o.orderId = :orderId")
     List<OrderForListingIdDto> getForListingId(int orderId);
 
+
     Order findByShipName(String shipName);
 
     Order findByShipCity(String shipCity);

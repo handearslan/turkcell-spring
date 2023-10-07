@@ -1,6 +1,5 @@
-package com.turkcell.spring.workshop.entities.dtos.Order_Details;
+package com.turkcell.spring.workshop.entities.dtos.OrderDetails;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;

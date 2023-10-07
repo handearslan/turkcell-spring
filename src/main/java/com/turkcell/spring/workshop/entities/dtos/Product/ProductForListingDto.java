@@ -1,7 +1,5 @@
 package com.turkcell.spring.workshop.entities.dtos.Product;
 
-import com.turkcell.spring.workshop.entities.Category;
-import com.turkcell.spring.workshop.entities.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
