@@ -26,6 +26,7 @@ import java.util.List;
 public class CategoriesController {
 
     private final MessageSource messageSource;
+    //deneme baran
 
     /*  public CategoriesController(CategoryService categoryService) {
           this.categoryService = categoryService;
