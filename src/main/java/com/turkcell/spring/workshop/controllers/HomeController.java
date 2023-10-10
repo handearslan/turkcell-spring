@@ -1,6 +1,9 @@
 package com.turkcell.spring.workshop.controllers;
 
 import com.turkcell.spring.workshop.entities.Product;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,17 +14,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("home")
+@RequiredArgsConstructor
 //http://localhost:8081/home
 //http://localhost:8081/home/index
 //http://localhost:8081/home/categories
 
 public class HomeController {
+    private final MessageSource messageSource;
 
     List<Product> productsList = new ArrayList<>();
 
     @GetMapping("") //get isteği
-    public String get() {
-        return "Merhaba Turkcell";
+    public String get(){
+        return messageSource.getMessage("hello", null, LocaleContextHolder.getLocale());
     }
 
     @PostMapping("")  //post isteği
@@ -82,3 +87,4 @@ public class HomeController {
         return new ResponseEntity<>(product.getProductName() + " ürünü eklendi...", headers, HttpStatus.CREATED);
     }
 }
+

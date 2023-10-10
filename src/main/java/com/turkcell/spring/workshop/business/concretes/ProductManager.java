@@ -1,7 +1,7 @@
 package com.turkcell.spring.workshop.business.concretes;
 
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
-import com.turkcell.spring.workshop.business.exceptions.BusinessException;
+import com.turkcell.spring.workshop.core.exceptions.BusinessException;
 import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.Product;
 import com.turkcell.spring.workshop.entities.Supplier;
@@ -10,6 +10,10 @@ import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForUpdateDto;
 import com.turkcell.spring.workshop.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,14 +21,12 @@ import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class ProductManager implements ProductService {
 
     private final ProductRepository productRepository;
-
-    public ProductManager(ProductRepository productRepository) {
-
-        this.productRepository = productRepository;
-    }
+    private final ModelMapper modelMapper;
+    private final MessageSource messageSource;
 
     @Override //Tüm ürünleri getirir.
     public List<ProductForListingDto> getAll() {
@@ -64,6 +66,10 @@ public class ProductManager implements ProductService {
 
         productRepository.save(newProduct);
 
+        //Product productFromAutoMapping = modelMapper.map(request, Product.class);
+        //productFromAutoMapping = productRepository.save(productFromAutoMapping);
+
+
     }
 
     //Siparişe eklenen her ürünün stok adeti quantity kadar azaltılmalıdır. +
@@ -74,23 +80,30 @@ public class ProductManager implements ProductService {
 
     }
 
-   /* private void addProductUnitPriceControl(ProductForAddDto request) {
+   /* private void addProductUnitPriceControl(ProductForAddDto request) {//halef
         // Product existingProduct = productRepository.findByUnitPrice(unitPrice);
         if (request.getUnitPrice() < 0) {
-            throw new BusinessException("Ürün fiyatı 0'dan küçük olmamalıdır.");
+            //throw new BusinessException("Ürün fiyatı 0'dan küçük olmamalıdır.");
+            throw new BusinessException
+                    (messageSource.getMessage("productPriceNotNegative", null, LocaleContextHolder.getLocale()));
         }
     }*/
 
     private void productWithSameNameShouldNot(String productName) {
         Product productWithSameName = productRepository.findByProductName(productName);
         if (productWithSameName != null)
-            throw new BusinessException("Aynı ürün mevcut.Başka ürün ismi giriniz.");
+            //throw new BusinessException("Aynı ürün mevcut.Başka ürün ismi giriniz.");
+            throw new BusinessException
+                    (messageSource.getMessage("productNameAllReady", null, LocaleContextHolder.getLocale()));
+
     }
 
    /* private void productWithSameNameShouldNotExist(String productName) {
         //  Product productWithSameName = productRepository.findByProductName(productName);
         if (productName == null || !productName.startsWith("HND")) {
-            throw new BusinessException("Ürün adı 'HND' ile başlamalıdır.");
+            //throw new BusinessException("Ürün adı 'HND' ile başlamalıdır.");
+            throw new BusinessException
+                    (messageSource.getMessage("productNameStartHND", null, LocaleContextHolder.getLocale()));
         }
     }*/
 
@@ -123,7 +136,9 @@ public class ProductManager implements ProductService {
     private Product returnProductByIdIfExists(int productID) {
         Product productToDelete = productRepository.findById(productID).orElse(null);
         if (productToDelete == null)
-            throw new BusinessException("Böyle bir sipariş bulunamadı.");
+            //throw new BusinessException("Böyle bir ürün bulunamadı.");
+            throw new BusinessException
+                    (messageSource.getMessage("productNotFound", null, LocaleContextHolder.getLocale()));
         return productToDelete;
     }
 }

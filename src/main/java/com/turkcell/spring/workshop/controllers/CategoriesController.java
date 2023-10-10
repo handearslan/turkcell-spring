@@ -7,6 +7,11 @@ import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForListingDto
 import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForUpdateDto;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContext;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +22,15 @@ import java.util.List;
 //http://localhost:8081/categories
 @RestController
 @RequestMapping("categories")
+@RequiredArgsConstructor
 public class CategoriesController {
 
-    public CategoriesController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private final MessageSource messageSource;
 
+    /*  public CategoriesController(CategoryService categoryService) {
+          this.categoryService = categoryService;
+      }
+  */
     private final CategoryService categoryService;
 
     @GetMapping()
@@ -39,19 +47,23 @@ public class CategoriesController {
     @PostMapping("add")
     public ResponseEntity add(@RequestBody @Valid CategoryForAddDto category) {
         categoryService.addCategory(category);
-        return new ResponseEntity(category.getCategoryName() + " adlı kategori eklendi.", HttpStatus.CREATED);
-    }
+        return new ResponseEntity(messageSource.getMessage("categoryAdded", new Object[]{
+                category.getCategoryName()}, LocaleContextHolder.getLocale()),HttpStatus.CREATED);    }
 
     @PutMapping("updateCategory/{categoryId}")
     public ResponseEntity updateCategory(@PathVariable("categoryId") int categoryId, @RequestBody @Valid CategoryForUpdateDto category) {
         categoryService.updateCategory(categoryId, category);
-        return new ResponseEntity(category.getCategoryName() + "adlı kategori güncellendi", HttpStatus.OK);
+        return new ResponseEntity(messageSource.getMessage("categoryUpdated", new Object[]{
+                category.getCategoryName()}, LocaleContextHolder.getLocale()),HttpStatus.OK);
     }
 
+    //messageSource.getMessage("categoryDoesNotExistWithGivenId", new Object[] {id}, LocaleContextHolder.getLocale()))
+//category.getCategoryName() + "adlı kategori güncellendi"
     @DeleteMapping("{categoryId}")
     public ResponseEntity deleteCategory(@PathVariable("categoryId") int categoryId) {
         categoryService.deleteCategory(categoryId);
-        return new ResponseEntity("Kategori silindi", HttpStatus.OK);
+        return new ResponseEntity(messageSource.getMessage("categoryDeleted",new Object[]
+                {categoryId}, LocaleContextHolder.getLocale()),HttpStatus.OK);
     }
 
     @GetMapping("getByName")

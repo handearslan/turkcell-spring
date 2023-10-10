@@ -1,6 +1,5 @@
-package com.turkcell.spring.workshop;
+package com.turkcell.spring.workshop.core.exceptions;
 
-import com.turkcell.spring.workshop.business.exceptions.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

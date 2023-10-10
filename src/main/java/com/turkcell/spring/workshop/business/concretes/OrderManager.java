@@ -2,7 +2,7 @@ package com.turkcell.spring.workshop.business.concretes;
 
 import com.turkcell.spring.workshop.business.abstracts.OrderDetailService;
 import com.turkcell.spring.workshop.business.abstracts.OrderService;
-import com.turkcell.spring.workshop.business.exceptions.BusinessException;
+import com.turkcell.spring.workshop.core.exceptions.BusinessException;
 import com.turkcell.spring.workshop.entities.Customer;
 import com.turkcell.spring.workshop.entities.Employee;
 import com.turkcell.spring.workshop.entities.Order;
@@ -12,6 +12,10 @@ import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForUpdateDto;
 import com.turkcell.spring.workshop.repositories.*;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,18 +23,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrderManager implements OrderService {
+
+    private final MessageSource messageSource;
 
     private final OrderRepository orderRepository;
 
     private final OrderDetailService orderDetailService;
 
-    public OrderManager(OrderRepository orderRepository, EmployeeRepository employeeRepository, CustomerRepository customerRepository, OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository, OrderDetailService orderDetailService) {
+    private final ModelMapper modelMapper;
 
+   /* public OrderManager(OrderRepository orderRepository, EmployeeRepository employeeRepository, CustomerRepository customerRepository, OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository, OrderDetailService orderDetailService) {
         this.orderRepository = orderRepository;
         this.orderDetailService = orderDetailService;
 
-    }
+    }*/
+
 
     @Override
     public List<OrderForListingDto> getAll() {
@@ -65,32 +74,45 @@ public class OrderManager implements OrderService {
                 .shipRegion(request.getShipRegion())
                 .build();
 
-        order = orderRepository.save(order);  // gönderen hesaptan parayı düş
+
+        Order orderFromAutoMapping = modelMapper.map(request, Order.class);
+
+
+        orderFromAutoMapping = orderRepository.save(orderFromAutoMapping);  // gönderen hesaptan parayı düş
+
+        // bu satırdan sonra order'ın id alanı set edilmiş..
+        orderDetailService.addItemsToOrder(orderFromAutoMapping, request.getItems()); // gönderilen hesaba parayı göndermek
+
+      /*  order = orderRepository.save(order);  // gönderen hesaptan parayı düş
 
         // bu satırdan sonra order'ın id alanı set edilmiş..
         orderDetailService.addItemsToOrder(order, request.getItems()); // gönderilen hesaba parayı göndermek
-
+*/
     }
 
     //Required Date kullanıcı tarafından gönderilmeli ve o günün tarihinden daha geçmiş bir tarih gönderilmemelidir.+
     private void requiredDateCannotBePastTenseThanLocalDate(LocalDate requiredDate) {
         if (requiredDate.isBefore(LocalDate.now())) {
-            throw new BusinessException("Girilen tarih şu anın tarihinden geçmiş olmamalıdır.");
+            throw new BusinessException
+                    (messageSource.getMessage("OrderDateControl", null, LocaleContextHolder.getLocale()));
         }
     }
 
     private void freightWithNumberBiggerThanTwentyOne(OrderForAddDto request) {
         // Order orderWithBiggerThan = orderRepository.findByShipCountry(shipCountry);
         if (request.getFreight() <= 21.5) {
-            throw new BusinessException("Freight 21.5'dan büyük olmalıdır.");
+            throw new BusinessException
+                    (messageSource.getMessage("FreightControl", null, LocaleContextHolder.getLocale()));
         }
     }
 
     private void shipCityWithSameNameShouldNotExist(OrderForAddDto request) {
         // Order orderWithSameName = orderRepository.findByShipCity(shipCity);
         if (request.getShipCity() == null)
-            throw new BusinessException("Şehir ismi boş olamaz.");
+            throw new BusinessException
+                    (messageSource.getMessage("CityNameNotNull", null, LocaleContextHolder.getLocale()));
     }
+
 
     @Override
     public void updateOrder(int orderId, OrderForUpdateDto order) {
@@ -112,8 +134,9 @@ public class OrderManager implements OrderService {
         Order orderWithSameName = orderRepository.findByShipName(shipName);
 
         if (orderWithSameName != null && orderWithSameName.getShipName().length() >= 20) {
-            throw new BusinessException("Sipariş ismi 20 karakterden uzun olamaz.");
-        }
+            throw new BusinessException
+                    (messageSource.getMessage("OrderNameLength",
+                            null, LocaleContextHolder.getLocale()));        }
     }
 
     @Override
@@ -128,7 +151,9 @@ public class OrderManager implements OrderService {
     private Order returnOrderByIdIfExists(int orderId) {
         Order orderToDelete = orderRepository.findById(orderId).orElse(null);
         if (orderToDelete == null)
-            throw new BusinessException("Böyle bir sipariş bulunamadı.");
+            throw new BusinessException
+                    (messageSource.getMessage("OrderIdControl",
+                            null, LocaleContextHolder.getLocale()));
         return orderToDelete;
     }
 }

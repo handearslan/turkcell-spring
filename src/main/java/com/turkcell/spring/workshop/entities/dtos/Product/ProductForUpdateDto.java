@@ -12,28 +12,26 @@ public class ProductForUpdateDto {
 
     private int productID;
 
-    @Size(min = 3, message = "Ürün adı 3 karakterden fazla olmalıdır. ")
+    @Size(min = 3, message = "{productNameShouldBeMinimum}")
     private String productName;
 
-    @PositiveOrZero(message = "0 veya daha büyük olmalıdır.")
-    @NotNull(message = "Boş bırakılmaz.")
+    @PositiveOrZero(message = "{zeroOrThan}")
+    @NotNull(message = "{notNull}")
     private int supplierID;
 
-    @PositiveOrZero(message = "0 veya daha büyük olmalıdır.")
-    @NotNull(message = "Boş bırakılmaz.")
+    @PositiveOrZero(message = "{zeroOrThan}")
+    @NotNull(message = "{notNull}")
     private int categoryId;
 
-    @Min(value = 1, message = "En az 1 olmalıdır")
+    @Min(value = 1, message = "{minOne}")
     private String quantityPerUnit;
 
 
     private float unitPrice;
 
-    @PositiveOrZero(message = "Stoktaki ürün sayısı 0 veya daha büyük olmalıdır.")
+    @PositiveOrZero(message = "{zeroOrThan}")
 
     private short unitsInStock;
     private short unitsOnOrder;
     private String quantityUnit;
 }
-
-
