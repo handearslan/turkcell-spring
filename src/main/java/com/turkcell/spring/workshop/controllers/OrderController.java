@@ -6,6 +6,9 @@ import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForUpdateDto;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +18,16 @@ import java.util.List;
 //http://localhost:8081/orders/add
 @RestController
 @RequestMapping("orders")
+@RequiredArgsConstructor
+
 public class OrderController {
 
     private final OrderService orderService;
+    private final MessageSource messageSource;
 
-    public OrderController(OrderService orderService) {
+    /*public OrderController(OrderService orderService) {
         this.orderService = orderService;
-    }
+    }*/
 
     @GetMapping()
     public List<OrderForListingDto> getOrders() {
@@ -37,19 +43,19 @@ public class OrderController {
     @PostMapping("add")
     public ResponseEntity add(@RequestBody @Valid OrderForAddDto order) {
         orderService.addOrder(order);
-        return new ResponseEntity("Sipariş eklendi.", HttpStatus.CREATED);
+        return new ResponseEntity(messageSource.getMessage("OrderAdded", null , LocaleContextHolder.getLocale()), HttpStatus.CREATED);
     }
 
     @PutMapping("updateOrder/{orderId}")
     public ResponseEntity updateOrder(@PathVariable("orderId") int orderId, @RequestBody @Valid OrderForUpdateDto order) {
         orderService.updateOrder(orderId, order);
-        return new ResponseEntity("Sipariş güncellendi", HttpStatus.OK);
+        return new ResponseEntity(messageSource.getMessage("OrderUpdate", null , LocaleContextHolder.getLocale()), HttpStatus.OK);
     }
 
     @DeleteMapping("{orderId}")
     public ResponseEntity deleteOrder(@PathVariable("orderId") int orderId) {
         orderService.deleteOrder(orderId);
-        return new ResponseEntity("Ürün silindi", HttpStatus.OK);
+        return new ResponseEntity(messageSource.getMessage("orderDeleted",new Object[] {orderId}, LocaleContextHolder.getLocale()), HttpStatus.OK);
     }
 }
 

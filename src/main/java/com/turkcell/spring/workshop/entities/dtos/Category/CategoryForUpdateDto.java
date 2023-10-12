@@ -18,12 +18,12 @@ public class CategoryForUpdateDto {
     private int categoryId;
 
 
-    @NotBlank(message = "Kategori adı girmek zorunludur.")
+    @NotBlank(message = "{categoryNameRequired}")
     @Size(min = 3)
     private String categoryName;
 
 
-    @NotBlank(message = "Açıklama alanı zorunludur.")
+    @NotBlank(message = "{descriptionRequired}W")
     private String description;
 }
 

@@ -18,7 +18,7 @@ public class OrderForAddDto {
     @NotBlank
     private String customerID;
 
-    @NotNull
+    @NotNull(message = "{notNull}")
     private int employeeId;
     private LocalDate requiredDate;
     private short shipVia;

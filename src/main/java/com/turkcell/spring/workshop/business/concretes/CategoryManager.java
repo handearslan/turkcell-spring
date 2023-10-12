@@ -9,6 +9,7 @@ import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForListingIdD
 import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForUpdateDto;
 import com.turkcell.spring.workshop.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryManager implements CategoryService {
     private final CategoryRepository categoryRepository;
-
+    private final ModelMapper modelMapper;
 
     private final MessageSource messageSource;
 
@@ -44,13 +45,15 @@ public class CategoryManager implements CategoryService {
 
         /*Category category = new Category();
         category.setCategoryName(request.getCategoryName());
-        category.setDescription(request.getDescription());*/
+        category.setDescription(request.getDescription());
 
         Category category = Category.builder().build();
         category.setCategoryName(request.getCategoryName());
         category.setDescription(request.getDescription());
 
-        categoryRepository.save(category);
+        categoryRepository.save(category);*/
+        Category categoryFromAutoMapping = modelMapper.map(request, Category.class);
+        categoryRepository.save(categoryFromAutoMapping);
     }
 
 
@@ -71,12 +74,14 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public void updateCategory(int categoryId, CategoryForUpdateDto category) {
-        Category categoryToUpdate = returnCategoryByIdIfExists(categoryId);
+        /*Category categoryToUpdate = returnCategoryByIdIfExists(categoryId);
 
         categoryToUpdate.setCategoryName(category.getCategoryName());
         categoryToUpdate.setDescription(category.getDescription());
 
-        categoryRepository.save(categoryToUpdate);
+        categoryRepository.save(categoryToUpdate);*/
+        Category categoryFromAutoMapping = modelMapper.map(category, Category.class);
+        categoryRepository.save(categoryFromAutoMapping);
     }
 
     @Override

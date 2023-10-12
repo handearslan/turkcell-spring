@@ -55,7 +55,7 @@ public class ProductManager implements ProductService {
         productWithSameNameShouldNot(request.getProductName());
         // addProductUnitPriceControl(request);
 
-        Product newProduct = Product.builder()
+        /*Product newProduct = Product.builder()
                 .productName(request.getProductName())
                 .unitPrice(request.getUnitPrice())
                 .unitsInStock(request.getUnitsInStock())
@@ -64,12 +64,10 @@ public class ProductManager implements ProductService {
                 .discontinued(0)
                 .build();
 
-        productRepository.save(newProduct);
+        productRepository.save(newProduct);*/
 
-        //Product productFromAutoMapping = modelMapper.map(request, Product.class);
-        //productFromAutoMapping = productRepository.save(productFromAutoMapping);
-
-
+        Product productFromAutoMapping = modelMapper.map(request, Product.class);
+        productRepository.save(productFromAutoMapping);
     }
 
     //Siparişe eklenen her ürünün stok adeti quantity kadar azaltılmalıdır. +
@@ -117,10 +115,12 @@ public class ProductManager implements ProductService {
 
         productWithSameNameShouldNot(product.getProductName());
 
-        Product productToUpdate = returnProductByIdIfExists(productID);
+        /*Product productToUpdate = returnProductByIdIfExists(productID);
 
         productToUpdate.setProductName(product.getProductName());
-        productToUpdate.setUnitPrice(product.getUnitPrice());
+        productToUpdate.setUnitPrice(product.getUnitPrice());*/
+        Product productFromAutoMapping = modelMapper.map(product, Product.class);
+        productRepository.save(productFromAutoMapping);
 
     }
 

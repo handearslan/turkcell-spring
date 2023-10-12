@@ -118,7 +118,7 @@ public class OrderManager implements OrderService {
     public void updateOrder(int orderId, OrderForUpdateDto order) {
         orderWithSameNameShouldNotExist(order.getShipName());
 
-        Order orderToUpdate = returnOrderByIdIfExists(orderId);
+        /*Order orderToUpdate = returnOrderByIdIfExists(orderId);
 
         // Güncelleme isteğindeki verileri kullanarak mevcut ürünü güncelle
         orderToUpdate.setShipName(order.getShipName());
@@ -127,7 +127,9 @@ public class OrderManager implements OrderService {
         orderToUpdate.setOrderDate(order.getOrderDate());
 
         // Güncellenen ürünü kaydet
-        orderRepository.save(orderToUpdate);
+        orderRepository.save(orderToUpdate);*/
+        Order orderFromAutoMapping = modelMapper.map(order, Order.class);
+        orderRepository.save(orderFromAutoMapping);
     }
 
     private void orderWithSameNameShouldNotExist(String shipName) {

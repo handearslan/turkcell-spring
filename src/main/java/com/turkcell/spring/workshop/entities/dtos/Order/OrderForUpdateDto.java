@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderForUpdateDto {
 
-    @Positive(message = " Gelecek değer pozitif olmak zorundadır")
+    @Positive(message = "{zeroOrThan}")
     private int orderId;
     private LocalDate orderDate;
     private LocalDate requiredDate;
 
-    @Digits(integer = 1, fraction = 0, message = "Girilecek sayı tek basamak olmalıdır.")
+    @Digits(integer = 1, fraction = 0, message = "{numberSingleDigit}")
     private short shipVia;
 
     private float freight;

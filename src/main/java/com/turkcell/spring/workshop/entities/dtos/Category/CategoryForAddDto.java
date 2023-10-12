@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryForAddDto {
 
-    @NotBlank(message = "Katagori adı girme zorunludur.")
+    @NotBlank(message = "{categoryNameRequired}")
     @Size(min=3)
     //@Pattern() //regex mesela şifre en az 1 harf bir sayı vs
     private String categoryName;
 
-    @NotBlank(message = "description girmek zorunludur.")
+    @NotBlank(message = "{descriptionRequired}")
     private String description;
 }
