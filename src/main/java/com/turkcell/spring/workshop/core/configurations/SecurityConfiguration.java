@@ -4,6 +4,7 @@ import com.turkcell.spring.workshop.core.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -32,6 +33,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
+                        .requestMatchers(HttpMethod.POST,"/categories/**").hasAnyAuthority("ADMIN","USER")
+                        .requestMatchers(HttpMethod.GET,"/products/**").hasAnyAuthority("ADMIN","USER")
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

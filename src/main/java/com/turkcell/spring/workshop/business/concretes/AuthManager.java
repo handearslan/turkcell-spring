@@ -26,7 +26,7 @@ public class AuthManager implements AuthService {
         User user = User.builder()
                 .name(request.getName())
                 .lastName(request.getLastName())
-                .role("USER")
+                .role(request.getRoleName())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();

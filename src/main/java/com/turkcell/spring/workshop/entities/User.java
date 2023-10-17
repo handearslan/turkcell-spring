@@ -13,14 +13,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class User implements UserDetails {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue()
     private Integer id;
 
