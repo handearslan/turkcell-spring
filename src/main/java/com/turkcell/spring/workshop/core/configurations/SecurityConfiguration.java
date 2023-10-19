@@ -35,13 +35,11 @@ public class SecurityConfiguration {
                         .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .requestMatchers(HttpMethod.POST,"/categories/**").hasAnyAuthority("ADMIN","USER")
                         .requestMatchers(HttpMethod.GET,"/products/**").hasAnyAuthority("ADMIN","USER")
+                        .requestMatchers(HttpMethod.DELETE,"/products/**").hasAnyAuthority("SUPER_ADMIN")
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
-
 }
