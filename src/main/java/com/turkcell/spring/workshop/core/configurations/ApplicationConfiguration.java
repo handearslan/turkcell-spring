@@ -23,7 +23,7 @@ public class ApplicationConfiguration {
     private final UserRepository userRepository;
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(); //Data Access Object
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setUserDetailsService(userDetailsService());
         return authenticationProvider;
@@ -31,10 +31,10 @@ public class ApplicationConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+        return config.getAuthenticationManager();//Authentication manager ı istendiğinde değer buradan dönecek
     }
 
-    @Bean
+    @Bean                                                   //şifreyi encoder edecek class
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
@@ -45,6 +45,7 @@ public class ApplicationConfiguration {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                //username e göre userdetails gönderiliyor.
             }
         };
     }

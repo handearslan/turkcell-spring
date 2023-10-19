@@ -6,9 +6,10 @@ import com.turkcell.spring.workshop.entities.dtos.auth.AuthenticationResponse;
 import com.turkcell.spring.workshop.entities.dtos.auth.LoginRequest;
 import com.turkcell.spring.workshop.entities.dtos.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/auth")
@@ -25,17 +26,5 @@ public class AuthController {
     @PostMapping("register")
     public AuthenticationResponse register(@RequestBody RegisterRequest request){
         return  authService.register(request);
-    }
-
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/admin")
-    public ResponseEntity<String> adminEndpoint() {
-        return ResponseEntity.ok("Admin endpoint accessed successfully");
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/user")
-    public ResponseEntity<String> userEndpoint() {
-        return ResponseEntity.ok("User endpoint accessed successfully");
     }
 }
