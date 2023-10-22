@@ -16,12 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    //filtrelerin geleceği yer
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private final AuthenticationProvider authenticationProvider;
-
-    //bu url lerde giriş yapma zorunluluğu arama
     private static final String[] WHITE_LIST_URLS = {
             "/swagger-ui/**",
             "/api/auth/**",
@@ -30,25 +26,19 @@ public class SecurityConfiguration {
             "/v3/api-docs/**",
     };
 
-    //filtre lerin zincirinin tanımlanması
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // listedeki url'lerin auth zorunluluğu olmaması
         http
-                .csrf(AbstractHttpConfigurer::disable)//güvenlik (zaafiyet önleme gibi)
-                .authorizeHttpRequests(req -> req           //hepsini onayla
-                        .requestMatchers(WHITE_LIST_URLS).permitAll()//listedeki url lerin authenticate zorunluluğu yoktur.
-                        .requestMatchers(HttpMethod.GET,"/categories/**").hasAnyAuthority("ADMIN","USER")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .requestMatchers(HttpMethod.POST,"/categories/**").hasAnyAuthority("ADMIN","USER")
-                        .requestMatchers(HttpMethod.GET,"/products/**").hasAnyAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/products/**").hasAnyAuthority("ADMIN")
-                        .anyRequest().authenticated())//her request authenticate olmalı...
-                .authenticationProvider(authenticationProvider)//uthentication işlemlerinde Provider ı kullan
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//jwt kullanacağız session ile bir işimiz yok şuan
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);//öncesinde kontrol edilmesi gereken filtreler
+                        .requestMatchers(HttpMethod.GET,"/products/**").hasAnyAuthority("USER")
+                        .anyRequest().authenticated())
+                .authenticationProvider(authenticationProvider)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
-
 }

@@ -1,11 +1,7 @@
 package com.turkcell.spring.workshop.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,18 +11,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = {"users"})
 public class Role {
-
     @Id
     @Column(name="id")
     @GeneratedValue()
     private Integer id;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name="role_name")
+    private String roleName;
 
-    @OneToMany(mappedBy = "role")
-    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
     private List<User> users;
+
+
 
 }
