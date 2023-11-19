@@ -1,9 +1,3 @@
-**#Pair4**
-#Hande Arslan
-#Halef Budanur
-#Fuat Hüriyetoğlu
-#Baran Büyük
-#Ahmet Çetiner
-#Elif Nida Karakaş
-#Yavuz Selim Özbey 
-
+# turkcell-spring
+## <p align="center"> PAİR 4:Elif Nida Karakaş,Halef Budanur,Ahmet Çetiner,Baran Büyük,Hande Arslan,Yavuz Selim Özbey, Fuat Hüriyetoğlu
+ </p> 
