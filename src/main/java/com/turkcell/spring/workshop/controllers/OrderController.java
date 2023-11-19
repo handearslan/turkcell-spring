@@ -58,17 +58,3 @@ public class OrderController {
         return new ResponseEntity(messageSource.getMessage("orderDeleted",new Object[] {orderId}, LocaleContextHolder.getLocale()), HttpStatus.OK);
     }
 }
-
-   /* @GetMapping
-    public List<Order> getOrders(){
-
-        List<Order> orderInDb = orderRepository.findAll();
-        return  orderInDb;
-    }
-
-    @GetMapping("getById")
-    public Order getOrderById(@RequestParam("id") int id){
-
-        Order order = orderRepository.findById(id).orElseThrow();
-        return order;
-    }*/

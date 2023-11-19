@@ -13,7 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     Product findByProductName(String productName);
 
-
     Product findByProductID(int productID);
     //  Buradaki ürünün unit_price'ı ürün idsi kullanılarak ürünler tablosundan çekilmelidir.
     //Derived Method
@@ -43,8 +42,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "SELECT * FROM products WHERE unit_price > 30", nativeQuery = true)
     List<Product> searchNative();
 
-
-
     @Query(value = "SELECT * FROM products WHERE quantity_per_unit LIKE %:als%", nativeQuery = true)
     List<Product> searchNativeAls(String als);
 
@@ -60,6 +57,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "p.productName ," +
             "p.quantityPerUnit , p.unitPrice, p.unitsInStock,p.unitsOnOrder , p.quantityUnit,p.reorderLevel) FROM Product p WHERE p.productID = :productID")
     List<ProductForListingIdDto> getForListingId(int productID);
-
 
 }

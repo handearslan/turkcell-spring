@@ -58,6 +58,3 @@ public class OrderDetailManager implements OrderDetailService {
         return quantity;
     }
 }
-
-
-

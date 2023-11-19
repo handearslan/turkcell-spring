@@ -34,13 +34,6 @@ public class OrderManager implements OrderService {
 
     private final ModelMapper modelMapper;
 
-   /* public OrderManager(OrderRepository orderRepository, EmployeeRepository employeeRepository, CustomerRepository customerRepository, OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository, OrderDetailService orderDetailService) {
-        this.orderRepository = orderRepository;
-        this.orderDetailService = orderDetailService;
-
-    }*/
-
-
     @Override
     public List<OrderForListingDto> getAll() {
         return orderRepository.getForListing();
@@ -87,7 +80,7 @@ public class OrderManager implements OrderService {
 
         // bu satırdan sonra order'ın id alanı set edilmiş..
         orderDetailService.addItemsToOrder(order, request.getItems()); // gönderilen hesaba parayı göndermek
-*/
+      */
     }
 
     //Required Date kullanıcı tarafından gönderilmeli ve o günün tarihinden daha geçmiş bir tarih gönderilmemelidir.+
@@ -113,7 +106,6 @@ public class OrderManager implements OrderService {
                     (messageSource.getMessage("CityNameNotNull", null, LocaleContextHolder.getLocale()));
     }
 
-
     @Override
     public void updateOrder(int orderId, OrderForUpdateDto order) {
         orderWithSameNameShouldNotExist(order.getShipName());
@@ -138,7 +130,8 @@ public class OrderManager implements OrderService {
         if (orderWithSameName != null && orderWithSameName.getShipName().length() >= 20) {
             throw new BusinessException
                     (messageSource.getMessage("OrderNameLength",
-                            null, LocaleContextHolder.getLocale()));        }
+                            null, LocaleContextHolder.getLocale()));
+        }
     }
 
     @Override
@@ -159,5 +152,3 @@ public class OrderManager implements OrderService {
         return orderToDelete;
     }
 }
-
-

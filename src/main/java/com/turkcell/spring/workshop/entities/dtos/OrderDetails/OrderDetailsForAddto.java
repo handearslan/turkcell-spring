@@ -14,5 +14,4 @@ public class OrderDetailsForAddto {
 
     @Min(1)
     private short quantity;
-
 }

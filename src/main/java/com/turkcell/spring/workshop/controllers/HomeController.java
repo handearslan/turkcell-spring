@@ -25,7 +25,7 @@ public class HomeController {
     List<Product> productsList = new ArrayList<>();
 
     @GetMapping("") //get isteği
-    public String get(){
+    public String get() {
         return messageSource.getMessage("hello", null, LocaleContextHolder.getLocale());
     }
 
@@ -87,4 +87,3 @@ public class HomeController {
         return new ResponseEntity<>(product.getProductName() + " ürünü eklendi...", headers, HttpStatus.CREATED);
     }
 }
-

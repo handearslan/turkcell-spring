@@ -25,8 +25,10 @@ public class User implements UserDetails {
     private Integer id;
 
     private String name;
+
     @Column(name = "last_name")
     private String lastName;
+
     private String username;
     private String password;
     private String role;
@@ -39,8 +41,6 @@ public class User implements UserDetails {
     )
     private List<Role> roles;
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // roller
@@ -49,7 +49,6 @@ public class User implements UserDetails {
                 roles.stream().map((role) -> new SimpleGrantedAuthority(role.getRoleName())).toList();
         return listOfRoles;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

@@ -5,8 +5,8 @@ import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Order.OrderForUpdateDto;
 
-
 import java.util.List;
+
 public interface OrderService {
 
     List<OrderForListingDto> getAll();

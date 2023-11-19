@@ -1,11 +1,9 @@
 package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
-
 
 @Entity
 @Table(name = "suppliers")
@@ -51,7 +49,6 @@ public class Supplier {
 
     @Column(name = "homepage")
     private String homePage;
-
 
     @OneToMany(mappedBy = "supplier")
     private List<Product> products;

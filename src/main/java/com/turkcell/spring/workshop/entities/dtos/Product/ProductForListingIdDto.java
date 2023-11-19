@@ -17,5 +17,4 @@ public class ProductForListingIdDto {
     private String quantityUnit;
     private short reorderLevel;
 
-
 }

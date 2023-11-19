@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductForAddDto {
 
-    //@Size(min=3,max=10,  message="{categoryNameShouldBeMinimum}")
-
     @Size(min = 3, message = "{productNameShouldBeMinimum}")
     private String productName;
 
@@ -32,10 +30,3 @@ public class ProductForAddDto {
     private short unitsInStock;
 
 }
-
-
- /*Ürün ismi 3 haneden kısa olamaz.
-         Supplier id ve category id boş geçilemez ve 0'dan küçük eşit olamaz
-         Unit Price boş geçilemez ve 0'dan küçük olamaz
-         Stock bilgisi 0dan küçük olamaz
-         Birebir aynı isimde ikinci ürün eklenemez.*/

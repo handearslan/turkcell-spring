@@ -12,6 +12,4 @@ public class CategoryForListingDto {
     private String categoryName;
     private String description;
 }
-
-    //http://localhost:8081/swagger-ui/index.html
-
+//http://localhost:8081/swagger-ui/index.html

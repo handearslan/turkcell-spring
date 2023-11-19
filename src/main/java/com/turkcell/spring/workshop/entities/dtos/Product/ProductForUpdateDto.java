@@ -26,12 +26,11 @@ public class ProductForUpdateDto {
     @Min(value = 1, message = "{minOne}")
     private String quantityPerUnit;
 
-
     private float unitPrice;
 
     @PositiveOrZero(message = "{zeroOrThan}")
-
     private short unitsInStock;
+
     private short unitsOnOrder;
     private String quantityUnit;
 }

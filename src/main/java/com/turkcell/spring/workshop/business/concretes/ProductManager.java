@@ -2,9 +2,7 @@ package com.turkcell.spring.workshop.business.concretes;
 
 import com.turkcell.spring.workshop.business.abstracts.ProductService;
 import com.turkcell.spring.workshop.core.exceptions.BusinessException;
-import com.turkcell.spring.workshop.entities.Category;
 import com.turkcell.spring.workshop.entities.Product;
-import com.turkcell.spring.workshop.entities.Supplier;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForAddDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingDto;
 import com.turkcell.spring.workshop.entities.dtos.Product.ProductForListingIdDto;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class ProductManager implements ProductService {
@@ -30,10 +27,8 @@ public class ProductManager implements ProductService {
 
     @Override //Tüm ürünleri getirir.
     public List<ProductForListingDto> getAll() {
-
         return productRepository.getForListing();
     }
-
 
     //Id 'ye göre ürün getirir.
     public List<ProductForListingIdDto> getById(int productID) {
@@ -78,7 +73,7 @@ public class ProductManager implements ProductService {
 
     }
 
-   /* private void addProductUnitPriceControl(ProductForAddDto request) {//halef
+   /* private void addProductUnitPriceControl(ProductForAddDto request) {
         // Product existingProduct = productRepository.findByUnitPrice(unitPrice);
         if (request.getUnitPrice() < 0) {
             //throw new BusinessException("Ürün fiyatı 0'dan küçük olmamalıdır.");
@@ -142,11 +137,3 @@ public class ProductManager implements ProductService {
         return productToDelete;
     }
 }
-
-
-
-
-
-
-
-

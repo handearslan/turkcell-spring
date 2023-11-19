@@ -17,13 +17,10 @@ public class CategoryForUpdateDto {
     @Min(1)
     private int categoryId;
 
-
     @NotBlank(message = "{categoryNameRequired}")
     @Size(min = 3)
     private String categoryName;
 
-
     @NotBlank(message = "{descriptionRequired}W")
     private String description;
 }
-

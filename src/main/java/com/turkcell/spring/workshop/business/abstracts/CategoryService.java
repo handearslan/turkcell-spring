@@ -5,9 +5,7 @@ import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForListingDto
 import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForListingIdDto;
 import com.turkcell.spring.workshop.entities.dtos.Category.CategoryForUpdateDto;
 
-
 import java.util.List;
-
 
 public interface CategoryService {
 

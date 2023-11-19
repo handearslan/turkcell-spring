@@ -15,6 +15,7 @@ public class OrderForUpdateDto {
 
     @Positive(message = "{zeroOrThan}")
     private int orderId;
+
     private LocalDate orderDate;
     private LocalDate requiredDate;
 
@@ -26,6 +27,4 @@ public class OrderForUpdateDto {
     private String shipCity;
     private String shipRegion;
     private String shipCountry;
-
-
 }

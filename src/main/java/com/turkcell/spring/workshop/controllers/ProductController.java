@@ -44,18 +44,15 @@ public class ProductController {
     public ResponseEntity add(@RequestBody @Valid ProductForAddDto product) {
         productServices.addProduct(product);
 
-        return new ResponseEntity(messageSource.getMessage("ProductAdd",new Object[] {product.getProductName()},LocaleContextHolder.getLocale()) , HttpStatus.CREATED);
-
+        return new ResponseEntity(messageSource.getMessage("ProductAdd", new Object[]{product.getProductName()}, LocaleContextHolder.getLocale()), HttpStatus.CREATED);
         //return new ResponseEntity(product.getProductName() + " adlı ürün eklendi.", HttpStatus.CREATED);
-
     }
 
     @PutMapping("updateProduct/{productId}")
     public ResponseEntity updateProduct(@PathVariable("productId") int productId, @RequestBody @Valid ProductForUpdateDto product) {
         productServices.updateProduct(productId, product);
 
-        return new ResponseEntity(messageSource.getMessage("ProductUpdate",new Object[] {product.getProductName()},LocaleContextHolder.getLocale()) , HttpStatus.OK);
-
+        return new ResponseEntity(messageSource.getMessage("ProductUpdate", new Object[]{product.getProductName()}, LocaleContextHolder.getLocale()), HttpStatus.OK);
         //return new ResponseEntity(product.getProductName() + "Ürün güncellendi", HttpStatus.OK);
     }
 
@@ -63,21 +60,18 @@ public class ProductController {
     public ResponseEntity deleteProduct(@PathVariable("productId") int productId) {
         productServices.deleteProduct(productId);
 
-        return new ResponseEntity(messageSource.getMessage("ProductDelete",null,LocaleContextHolder.getLocale()) , HttpStatus.OK);
-
+        return new ResponseEntity(messageSource.getMessage("ProductDelete", null, LocaleContextHolder.getLocale()), HttpStatus.OK);
         //return new ResponseEntity("Ürün silindi", HttpStatus.OK);
     }
 
     @GetMapping("getByUnitPrice")
     public List<Product> getProductById(@RequestParam("unitPrice") double unitPrice) {
-
         // List<Product> product = productRepository.findByUnitPrice(unitPrice);
         return null;
     }
 
     @GetMapping("getByUnitsInStock")
     public List<Product> getUnitsInStock(@RequestParam("UnitsInStock") short UnitsInStock) {
-
         //List<Product> product = productRepository.UnitsInStockGreaterThanEqual(UnitsInStock);
         return null;
     }
@@ -90,7 +84,6 @@ public class ProductController {
 
     @GetMapping("getByQuantityUnitNull")
     public List<Product> getQuantityUnitNull() {
-
         //List<Product> product = productRepository.findByQuantityUnitIsNull();
         return null;
     }
@@ -125,4 +118,3 @@ public class ProductController {
         return null;
     }
 }
-

@@ -24,5 +24,4 @@ public class CustomerDemographic {
 
     @Column(name = "customer_desc")
     private String customerDesc;
-
 }

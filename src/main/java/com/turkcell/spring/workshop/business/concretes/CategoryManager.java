@@ -25,8 +25,6 @@ public class CategoryManager implements CategoryService {
 
     private final MessageSource messageSource;
 
-
-
     @Override
     public List<CategoryForListingDto> getAll() {
 
@@ -70,7 +68,8 @@ public class CategoryManager implements CategoryService {
         Category categoryNameIsEmpty = categoryRepository.findByCategoryName(categoryName);
         if (categoryNameIsEmpty != null)
             throw new BusinessException
-                    (messageSource.getMessage("categoryNotEmpty", null, LocaleContextHolder.getLocale()));    }
+                    (messageSource.getMessage("categoryNotEmpty", null, LocaleContextHolder.getLocale()));
+    }
 
     @Override
     public void updateCategory(int categoryId, CategoryForUpdateDto category) {
@@ -87,21 +86,15 @@ public class CategoryManager implements CategoryService {
     @Override
     public void deleteCategory(int categoryId) {
         Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-
         Category categoryToDelete = returnCategoryByIdIfExists(categoryId);
-
         categoryRepository.delete(categoryToDelete);
     }
 
-    private Category returnCategoryByIdIfExists(int id){
+    private Category returnCategoryByIdIfExists(int id) {
         Category categoryToDelete = categoryRepository.findById(id).orElse(null);
-        if(categoryToDelete==null)
+        if (categoryToDelete == null)
             throw new BusinessException(
-                    messageSource.getMessage("categoryDoesNotExistWithGivenId", new Object[] {id}, LocaleContextHolder.getLocale()));
+                    messageSource.getMessage("categoryDoesNotExistWithGivenId", new Object[]{id}, LocaleContextHolder.getLocale()));
         return categoryToDelete;
     }
 }
-
-
-
-

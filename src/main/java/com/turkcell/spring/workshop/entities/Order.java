@@ -2,9 +2,7 @@ package com.turkcell.spring.workshop.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,14 +30,11 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
 
-
     @Column(name = "order_date")
     private LocalDate orderDate;
 
     @Column(name = "required_date")
     private LocalDate requiredDate;
-
-
 
     @Column(name = "ship_via")
     private short shipVia;
@@ -64,6 +59,5 @@ public class Order {
 
     @Column(name = "ship_country")
     private String shipCountry;
-
 
 }

@@ -19,5 +19,4 @@ public class OrderForListingIdDto {
     private String shipCity;
     private String shipRegion;
     private String shipCountry;
-
 }
